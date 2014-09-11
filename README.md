@@ -9,3 +9,5 @@ that parses my imgur albums page and makes a quick portfolio site out of it.
 Not sure where this is in terms of imgur terms of use, but it lets me use them as a really nice content management
 service and allows me to display the albums on a sweet looking portfolio app
 
+here is how it looks now on heroku:
+http://floating-escarpment-5391.herokuapp.com
