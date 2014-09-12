@@ -23,7 +23,7 @@ while (m = regex.exec(queryString)) {
 // the user name is returned as well, i use it to access my albums
 console.log(params);
 
-token = params.access_token;
+token = '1b294bfc8be320fdb89c3f4c606e6ba5be846483';
 username = params.account_username;
 console.log(params.access_token);
 console.log(params.refresh_token);
@@ -52,7 +52,42 @@ console.log(params.refresh_token);
     });
 
     
- 
+ $(document).ready(function(){
+$("#loaddata").click(function(){ 
+	
+	
+	// runs a post request when button is clicked
+	// the client id, refresh token, client secret and grant type are sent  as post to imgur
+	// imgur responds with a new access token for the username this refresh token corresponds to
+	
+	
+    $.ajax({
+      url: 'https://api.imgur.com/oauth2/token',
+      method: 'POST',
+      data: {
+        client_id: 'e3e611ad95a93e9',
+        refresh_token: 'b03b2b6cc763284478a91d7a51eb1058d2ea49f7',
+        client_secret: '8cea5960d4fc9b4b98a086ba40f06243f9ffa093',
+        grant_type: 'refresh_token'
+        
+      },
+      success: function(result) {
+      	
+   		 console.log(result);
+   		 
+	/* here is what a result looks like
+	 * Object {access_token: "625f9a6c05e72110b044b564d2000957f720602b", expires_in: 3600, token_type: "bearer", scope: null, refresh_token: "9e010e9fa9366d01c5ae94149bb64ccece1a339f"…}access_token: "625f9a6c05e72110b044b564d2000957f720602b"account_username: "korostelevm"expires_in: 3600refresh_token: "9e010e9fa9366d01c5ae94149bb64ccece1a339f"scope: nulltoken_type: "bearer"
+	 */	
+
+	}
+	});
+
+});
+
+
+
+
+});
   
     </script>
     <style>
@@ -64,8 +99,12 @@ console.log(params.refresh_token);
  
   <body>
   	
- <!-- this link incldues a token request with my app client id. imgur api is configured to respond to this same url -->
-  	<a href = "https://api.imgur.com/oauth2/authorize?client_id=e3e611ad95a93e9&response_type=token&state=asdf">asdfsadfsa</a>
+ <!-- this link incldues a token request with my app client id. imgur api is configured to respond to this same url, a new toekn is generated every time
+ 	almost like a new user account, need to keep track of these-->
+  <a href = "https://api.imgur.com/oauth2/authorize?client_id=e3e611ad95a93e9&response_type=token&state=asdf">gen token</a>
    
+  <br>
+  <!-- this button gets the refresh token once one has expired -->
+  <button id="loaddata">refresh token</button>
   </body>
 </html>
