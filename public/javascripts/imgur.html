@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+ 
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>imgur oauth</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script>
+    
+// when imgur rsponds to the below link, this part parses the query string and takes out the stuff 
+var params = {}, queryString = location.hash.substring(1),
+    regex = /([^&=]+)=([^&]*)/g, m;
+while (m = regex.exec(queryString)) {
+  params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+}
+//the below params object looks like this
+// Object {access_token: "access_token", expires_in: "3600", token_type: "bearer", refresh_token: "refresh_token", account_username: "user"}
+// where acccess token is used along with api endpoints as a header
+// refresh token is used to get a new access token once the current one expires
+// to get a new access token you also need the client secret jawn that was given at the begging of the app creation
+// if these things are missing, the user will have to confirm the app again
+// the user name is returned as well, i use it to access my albums
+console.log(params);
+
+token = params.access_token;
+username = params.account_username;
+console.log(params.access_token);
+console.log(params.refresh_token);
+
+    var auth;
+    if (token) authorization = 'Bearer ' + token;
+    else authorization = 'Client-ID ' + clientId;
+
+    $.ajax({
+    	// im trying to get the albums out of my account
+      url: 'https://api.imgur.com/3/account/' + username +'/albums/',
+      method: 'GET',
+      // the access token gets passed in as an authorization header.
+      headers: {
+        Authorization: authorization,
+        Accept: 'application/json'
+      },
+      success: function(result) {
+      	
+      	albums = result.data;
+      	albums.forEach(function(album) {
+   		 console.log(album.title);
+		});
+
+      }
+    });
+
+    
+ 
+  
+    </script>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+ 
+  <body>
+  	
+ <!-- this link incldues a token request with my app client id. imgur api is configured to respond to this same url -->
+  	<a href = "https://api.imgur.com/oauth2/authorize?client_id=e3e611ad95a93e9&response_type=token&state=asdf">asdfsadfsa</a>
+   
+  </body>
+</html>

@@ -27,7 +27,6 @@ request('http://korostelevm.imgur.com', function (error, response, body) {
       
       	console.log(albums);
   
-    
     res.render('index', { title: "imgur test", albums: albums });
   }
 })
